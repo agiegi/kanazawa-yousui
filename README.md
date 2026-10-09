@@ -1,0 +1,2 @@
+# kanazawa-yousui
+プロジェクトデザイン
