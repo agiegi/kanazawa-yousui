@@ -4,12 +4,66 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>金沢用水ジオゲッサー</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>金沢用水ジオゲッサー</h1>
-<p id="status">読み込み中</p>
 
+<!-- ① トップ画面 -->
+<section id="screen-top" class="screen">
+  <h1>金沢用水ジオゲッサー</h1>
+  <p class="lead">写真の場所を地図から当てるゲームです。<br>遊びながら金沢の用水を知ってもらうことを目指しています。</p>
+  <button id="btn-start" class="primary">ゲームを始める</button>
+  <h2>遊び方</h2>
+  <ol>
+    <li>用水の写真が出ます</li>
+    <li>地図をタップして、撮影された場所だと思うところにピンを立てます</li>
+    <li>決定を押すと、正解との距離に応じて点数が入ります</li>
+    <li>そのあとその用水の解説が読めます</li>
+  </ol>
+  <h2>用水について</h2>
+  <p>金沢の市街地には、藩政時代から引かれた用水が網の目のように流れています。
+  普段は意識されにくい風景ですが、まちの成り立ちと深く結びついています。</p>
+</section>
+
+<!-- ② ゲーム画面 -->
+<section id="screen-game" class="screen">
+  <div class="bar">
+    <span id="game-progress">第1問 / 3問</span>
+    <span id="game-score">合計 0 点</span>
+  </div>
+  <img id="photo" alt="用水の写真">
+  <div id="photo-missing" class="photo-missing">写真をここに入れる（data/photos/）</div>
+  <div id="map"></div>
+  <p id="map-help" class="help">地図をタップしてピンを立ててください</p>
+  <button id="btn-decide" class="primary" disabled>ここに決定する</button>
+</section>
+
+<!-- ③ 結果・ヒント・学習画面 -->
+<section id="screen-result" class="screen">
+  <div class="bar">
+    <span id="result-title">結果</span>
+    <span id="result-score">0 点</span>
+  </div>
+  <p id="result-distance" class="distance"></p>
+  <div id="result-map"></div>
+  <h2 id="result-name"></h2>
+  <p id="result-hint"></p>
+  <button id="btn-next" class="primary">次の問題へ</button>
+</section>
+
+<!-- ④ 最終結果画面 -->
+<section id="screen-final" class="screen">
+  <h1>結果発表</h1>
+  <p class="total"><span id="final-score">0</span> 点</p>
+  <p id="final-comment" class="lead"></p>
+  <h2>行ってみませんか</h2>
+  <p>今回出てきた用水です。地図を開いて、実際に歩いてみてください。</p>
+  <ul id="final-list" class="visit-list"></ul>
+  <button id="btn-retry" class="primary">もう一度遊ぶ</button>
+</section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="data/questions.js"></script>
 <script src="script.js"></script>
 </body>
