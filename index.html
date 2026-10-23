@@ -33,6 +33,7 @@
   <div class="bar">
     <span id="game-progress">第1問 / 3問</span>
     <span id="game-score">合計 0 点</span>
+    <button id="btn-sound-game" class="sound-toggle">♪ 音あり</button>
   </div>
   <img id="photo" alt="用水の写真">
   <div id="photo-missing" class="photo-missing">写真をここに入れる（data/photos/）</div>
@@ -47,6 +48,7 @@
   <div class="bar">
     <span id="result-title">結果</span>
     <span id="result-score">0 点</span>
+    <button id="btn-sound-result" class="sound-toggle">♪ 音あり</button>
   </div>
   <p id="result-distance" class="distance"></p>
   <div id="result-map"></div>
@@ -69,6 +71,7 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="data/questions.js"></script>
+<script src="sound.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

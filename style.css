@@ -69,10 +69,22 @@ button.primary:disabled {
 .bar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 14px;
   padding: 8px 0;
   border-bottom: 1px solid #ddd;
   margin-bottom: 12px;
+}
+
+/* 音の入切. 検証で教室を使う時に切れるようにしておく */
+.sound-toggle {
+  font-size: 12px;
+  color: #3a6ea5;
+  background: none;
+  border: 1px solid #c3cdd6;
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
 }
 
 /* 写真 */

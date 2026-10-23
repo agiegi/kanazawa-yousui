@@ -41,6 +41,7 @@ function tokutenWoMotomeru(kyori) {
 
 // ---- ゲーム開始 ----
 function gameWoHajimeru() {
+  audioWoYoui();
   genzaiNo = 0;
   goukeiTokuten = 0;
   gamenWoHyouji("screen-game");
@@ -108,6 +109,7 @@ function chizuWoClick(e) {
   document.getElementById("btn-decide").disabled = false;
   document.getElementById("map-help").textContent =
     "ここでよければ決定を押してください";
+  sePin();
 }
 
 // ---- 決定 ----
@@ -133,8 +135,11 @@ function ketteiSuru() {
   document.getElementById("btn-next").textContent =
     (genzaiNo === QUESTIONS.length - 1) ? "結果を見る" : "次の問題へ";
 
+  seKettei();
   gamenWoHyouji("screen-result");
   kekkaChizuWoHyouji(kaitouIchi, mondai);
+  // 決定音が鳴り終わってから結果の音を重ねる
+  window.setTimeout(function () { seKekka(tokuten); }, 260);
 }
 
 // ---- 結果画面の地図 ----
@@ -168,6 +173,7 @@ function kekkaChizuWoHyouji(kaitou, mondai) {
 function tsugiHe() {
   genzaiNo = genzaiNo + 1;
   if (genzaiNo < QUESTIONS.length) {
+    seTsugi();
     gamenWoHyouji("screen-game");
     chizu.invalidateSize();
     mondaiWoHyouji();
@@ -206,6 +212,7 @@ function saishuKekkaWoHyouji() {
     list.appendChild(li);
   }
 
+  seOwari();
   gamenWoHyouji("screen-final");
 }
 
@@ -219,6 +226,8 @@ document.getElementById("btn-start").onclick = gameWoHajimeru;
 document.getElementById("btn-decide").onclick = ketteiSuru;
 document.getElementById("btn-next").onclick = tsugiHe;
 document.getElementById("btn-retry").onclick = gameWoHajimeru;
+document.getElementById("btn-sound-game").onclick = onseiWoKirikae;
+document.getElementById("btn-sound-result").onclick = onseiWoKirikae;
 
 // 最初はトップ画面
 gamenWoHyouji("screen-top");
