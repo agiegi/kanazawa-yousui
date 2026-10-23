@@ -53,7 +53,9 @@ function gameWoHajimeru() {
 // 表示してから invalidateSize() を呼んで作り直させる
 function chizuWoYoui() {
   if (chizu === null) {
-    chizu = L.map("map").setView([36.5613, 136.6562], 13);
+    // 初期表示は全問の正解が入る範囲にする. 寺津用水が市街地から離れている為,
+    // 市街地だけを映すと画面外になってしまう
+    chizu = L.map("map").setView([36.5206, 136.6886], 11);
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 18,
       attribution: "&copy; OpenStreetMap contributors"
@@ -92,7 +94,7 @@ function mondaiWoHyouji() {
   document.getElementById("btn-decide").disabled = true;
   document.getElementById("map-help").textContent =
     "地図をタップしてピンを立ててください";
-  chizu.setView([36.5613, 136.6562], 13);
+  chizu.setView([36.5206, 136.6886], 11);
 }
 
 // ---- 地図をクリックしたとき ----
@@ -127,6 +129,7 @@ function ketteiSuru() {
     "正解まで " + Math.round(kyori) + " m ずれていました";
   document.getElementById("result-name").textContent = mondai.name;
   document.getElementById("result-hint").textContent = mondai.hint;
+  document.getElementById("result-credit").textContent = PHOTO_CREDIT;
   document.getElementById("btn-next").textContent =
     (genzaiNo === QUESTIONS.length - 1) ? "結果を見る" : "次の問題へ";
 
@@ -205,6 +208,11 @@ function saishuKekkaWoHyouji() {
 
   gamenWoHyouji("screen-final");
 }
+
+// ---- 写真の出典表示 ----
+// questions.js の PHOTO_CREDIT を1か所直せば, 両方の画面に反映される
+document.getElementById("top-credit").textContent = PHOTO_CREDIT;
+document.getElementById("game-credit").textContent = PHOTO_CREDIT;
 
 // ---- ボタンの登録 ----
 document.getElementById("btn-start").onclick = gameWoHajimeru;

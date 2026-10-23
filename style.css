@@ -40,6 +40,13 @@ h2 {
   margin: 8px 0;
 }
 
+/* 写真の出典. 規約上, 内容の近くに読める大きさで置く */
+.credit {
+  font-size: 12px;
+  color: #666;
+  margin: 6px 0 0;
+}
+
 /* ボタン */
 button.primary {
   display: block;
@@ -69,11 +76,11 @@ button.primary:disabled {
 }
 
 /* 写真 */
+/* 写真は切り取らずに全体を見せる. 手がかりが端に写っていることがある為 */
 #photo {
   display: block;
   width: 100%;
-  height: 220px;
-  object-fit: cover;
+  height: auto;
   border-radius: 6px;
   background: #ddd;
 }
