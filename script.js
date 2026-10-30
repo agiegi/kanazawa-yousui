@@ -8,6 +8,8 @@ let kaitouIchi = null;     // 今の問題で置いたピンの位置
 let chizu = null;          // ゲーム画面の地図
 let kekkaChizu = null;     // 結果画面の地図
 let kaitouMarker = null;   // ゲーム画面に置いたピン
+let tsukattaHint = [];     // 今の問題で開いたヒントの key
+let genten = 0;            // 今の問題でヒントによって引かれる点数
 
 // ---- 画面の切り替え ----
 // .active が付いている section だけが表示される
@@ -37,6 +39,86 @@ function kyoriWoMotomeru(lat1, lng1, lat2, lng2) {
 // 1000 で割っている部分が「何メートルずれたら何点」の調整つまみ.
 function tokutenWoMotomeru(kyori) {
   return Math.round(1000 * Math.exp(-kyori / 1000));
+}
+
+// ---- ヒント ----
+// 使った分だけ得点が引かれる. どれを何点にするかは questions.js の HINT_TYPES.
+
+// その問題でそのヒントが用意されているかどうか.
+// 追加写真は配列なので, 空なら無しとみなす
+function hintGaAruka(mondai, key) {
+  const h = mondai.hints;
+  if (!h) {
+    return false;
+  }
+  if (key === "extra") {
+    return Array.isArray(h.extra) && h.extra.length > 0;
+  }
+  return typeof h[key] === "string" && h[key] !== "";
+}
+
+// ヒントのボタンを並べ直す. 使い終わったものは押せなくする
+function hintBotanWoHyouji() {
+  const mondai = QUESTIONS[genzaiNo];
+  const waku = document.getElementById("hint-buttons");
+  waku.innerHTML = "";
+
+  for (const shurui of HINT_TYPES) {
+    if (!hintGaAruka(mondai, shurui.key)) {
+      continue;
+    }
+    const b = document.createElement("button");
+    const sumi = tsukattaHint.includes(shurui.key);
+    b.textContent = shurui.label + (sumi ? "（使用済み）" : "（-" + shurui.cost + "点）");
+    b.disabled = sumi;
+    b.onclick = function () { hintWoTsukau(shurui.key); };
+    waku.appendChild(b);
+  }
+
+  const genCat = document.getElementById("hint-penalty");
+  genCat.textContent = (genten === 0) ? "" : "-" + genten + "点";
+}
+
+// ヒントを開く
+function hintWoTsukau(key) {
+  if (tsukattaHint.includes(key)) {
+    return;
+  }
+  const mondai = QUESTIONS[genzaiNo];
+  const shurui = HINT_TYPES.find(function (s) { return s.key === key; });
+
+  tsukattaHint.push(key);
+  genten = genten + shurui.cost;
+
+  if (key === "extra") {
+    // 追加写真はまとめて並べる
+    const waku = document.getElementById("hint-photos");
+    for (const path of mondai.hints.extra) {
+      const img = document.createElement("img");
+      img.src = path;
+      img.alt = "周辺の写真";
+      waku.appendChild(img);
+    }
+  } else {
+    const li = document.createElement("li");
+    const midashi = document.createElement("span");
+    midashi.className = "hint-label";
+    midashi.textContent = shurui.label + ": ";
+    li.appendChild(midashi);
+    li.appendChild(document.createTextNode(mondai.hints[key]));
+    document.getElementById("hint-list").appendChild(li);
+  }
+
+  // エリアのヒントは地図もその範囲に寄せる.
+  // 正解そのものではなく, 少しずらした地区の中心に寄せている
+  if (key === "area" && mondai.hints.areaView) {
+    chizu.setView(
+      [mondai.hints.areaView.lat, mondai.hints.areaView.lng], HINT_ZOOM
+    );
+  }
+
+  seHint();
+  hintBotanWoHyouji();
 }
 
 // ---- ゲーム開始 ----
@@ -96,6 +178,13 @@ function mondaiWoHyouji() {
   document.getElementById("map-help").textContent =
     "地図をタップしてピンを立ててください";
   chizu.setView([36.5206, 136.6886], 11);
+
+  // ヒントを問題ごとに初期化する
+  tsukattaHint = [];
+  genten = 0;
+  document.getElementById("hint-list").innerHTML = "";
+  document.getElementById("hint-photos").innerHTML = "";
+  hintBotanWoHyouji();
 }
 
 // ---- 地図をクリックしたとき ----
@@ -121,7 +210,9 @@ function ketteiSuru() {
   const kyori = kyoriWoMotomeru(
     kaitouIchi.lat, kaitouIchi.lng, mondai.lat, mondai.lng
   );
-  const tokuten = tokutenWoMotomeru(kyori);
+  // 距離から出した点からヒントの減点を引く. 0点より下げない
+  const kihonTen = tokutenWoMotomeru(kyori);
+  const tokuten = Math.max(0, kihonTen - genten);
   goukeiTokuten = goukeiTokuten + tokuten;
 
   document.getElementById("result-title").textContent =
@@ -129,6 +220,13 @@ function ketteiSuru() {
   document.getElementById("result-score").textContent = tokuten + " 点";
   document.getElementById("result-distance").textContent =
     "正解まで " + Math.round(kyori) + " m ずれていました";
+
+  // ヒントを使った時だけ内訳を出す
+  document.getElementById("result-breakdown").textContent =
+    (genten === 0)
+      ? ""
+      : "距離の点 " + kihonTen + " 点 − ヒント " + tsukattaHint.length
+        + "個 " + genten + " 点 = " + tokuten + " 点";
   document.getElementById("result-name").textContent = mondai.name;
   document.getElementById("result-hint").textContent = mondai.hint;
   document.getElementById("result-credit").textContent = PHOTO_CREDIT;

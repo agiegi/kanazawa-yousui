@@ -107,6 +107,74 @@ button.primary:disabled {
   line-height: 220px;
 }
 
+/* ヒント */
+.hints {
+  margin: 12px 0;
+  padding: 10px 12px;
+  background: #f4f6f4;
+  border-radius: 6px;
+}
+.hint-head {
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0 0 8px;
+}
+/* 減点の合計. 使うまでは空なので何も出ない */
+.hint-penalty {
+  font-weight: normal;
+  color: #c0392b;
+  margin-left: 8px;
+}
+.hint-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.hint-buttons button {
+  font-size: 13px;
+  padding: 6px 10px;
+  color: #3a6ea5;
+  background: #fff;
+  border: 1px solid #c3cdd6;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.hint-buttons button:disabled {
+  color: #999;
+  background: #e8eae8;
+  border-color: #d5dad5;
+  cursor: default;
+}
+/* 開いたヒントの文面 */
+.hint-list {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  font-size: 14px;
+}
+.hint-list li {
+  margin-bottom: 6px;
+}
+.hint-list .hint-label {
+  font-weight: bold;
+}
+.hint-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.hint-photos img {
+  width: calc(50% - 3px);
+  border-radius: 4px;
+}
+
+/* 結果画面の点数の内訳 */
+.breakdown {
+  font-size: 14px;
+  color: #555;
+  margin: 4px 0 0;
+}
+
 /* 地図 */
 #map, #result-map {
   height: 300px;

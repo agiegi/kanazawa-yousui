@@ -67,6 +67,12 @@ function sePin() {
   otoWoNarasu(880, 0.08, "triangle", 0.18, 0);
 }
 
+// ヒントを開いた時. 得をしたわけではないので, ピンより低く短い音にする
+function seHint() {
+  otoWoNarasu(587, 0.06, "triangle", 0.14, 0);
+  otoWoNarasu(494, 0.12, "triangle", 0.14, 0.06);
+}
+
 // 決定を押した時. 低い音から高い音へ
 function seKettei() {
   otoWoNarasu(523, 0.09, "sine", 0.22, 0);

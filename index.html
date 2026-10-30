@@ -18,6 +18,7 @@
   <ol>
     <li>用水の写真が出ます</li>
     <li>地図をタップして、撮影された場所だと思うところにピンを立てます</li>
+    <li>分からないときはヒントが使えます。ただし使った分だけ点数が引かれます</li>
     <li>決定を押すと、正解との距離に応じて点数が入ります</li>
     <li>そのあとその用水の解説が読めます</li>
   </ol>
@@ -38,6 +39,15 @@
   <img id="photo" alt="用水の写真">
   <div id="photo-missing" class="photo-missing">写真をここに入れる（data/photos/）</div>
   <p id="game-credit" class="credit"></p>
+
+  <!-- ヒント. 使うとその問の得点が減る -->
+  <div class="hints">
+    <p class="hint-head">ヒント<span id="hint-penalty" class="hint-penalty"></span></p>
+    <div id="hint-buttons" class="hint-buttons"></div>
+    <ul id="hint-list" class="hint-list"></ul>
+    <div id="hint-photos" class="hint-photos"></div>
+  </div>
+
   <div id="map"></div>
   <p id="map-help" class="help">地図をタップしてピンを立ててください</p>
   <button id="btn-decide" class="primary" disabled>ここに決定する</button>
@@ -51,6 +61,7 @@
     <button id="btn-sound-result" class="sound-toggle">♪ 音あり</button>
   </div>
   <p id="result-distance" class="distance"></p>
+  <p id="result-breakdown" class="breakdown"></p>
   <div id="result-map"></div>
   <h2 id="result-name"></h2>
   <p id="result-hint"></p>
