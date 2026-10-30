@@ -15,9 +15,9 @@ const PHOTO_CREDIT = "写真: 金沢市公式ホームページ (金沢市の許
 // エリアは地図まで絞り込まれるので4つの中で一番強い。その分高くしてある。
 // 写真から分かることは, プレイヤーが既に見ている写真の読み方を言うだけなので一番弱い。
 const HINT_TYPES = [
-  { key: "photo",    label: "写真から分かること", cost: 50  },
-  { key: "landmark", label: "近くのランドマーク", cost: 100 },
-  { key: "area",     label: "大まかなエリア",   cost: 150 },
+  { key: "photo",    label: "写真から分かること", cost: 15  },
+  { key: "landmark", label: "近くのランドマーク", cost: 30 },
+  { key: "area",     label: "大まかなエリア",   cost: 50 },
   { key: "extra",    label: "周辺の追加写真",   cost: 200 }
 ];
 
